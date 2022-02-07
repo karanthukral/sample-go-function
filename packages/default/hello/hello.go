@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/xo/dburl"
 	"os"
 )
 
@@ -14,17 +13,10 @@ func Main(args map[string]interface{}) map[string]interface{} {
 		name = "stranger"
 	}
 	msg := make(map[string]interface{})
-	msg["body"] = "Hello " + name + "!" + os.Getenv("DATABASE_URL")
+	msg["body"] = "Hello " + name + "!"
 
 	// Open up our database connection.
-	dbURL, err := dburl.Parse(os.Getenv("DATABASE_URL"))
-	if err != nil {
-		panic(err.Error())
-	}
-
-	dbPassword, _ := dbURL.User.Password()
-	dbName := strings.Trim(dbURL.Path, "/")
-	connectionString := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=utf8&parseTime=true", dbURL.User.Username(), dbPassword, dbURL.Hostname(), dbURL.Port(), dbName)
+	connectionString := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=utf8&parseTime=true", os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOSTNAME"), os.Getenv("DB_PORT"), os.Getenv("DB_DATABASE"))
 
 	db, err := sql.Open("mysql", connectionString)
 	if err != nil {

@@ -5,4 +5,8 @@ packages:
         runtime: 'go:default'
         web: false
         environment:
-          DATABASE_URL: "${DATABASE_URL}"
+          DB_HOSTNAME: "${DB_HOSTNAME}"
+          DB_DATABASE: "${DB_DATABASE}"
+          DB_PASSWORD: "${DB_PASSWORD}"
+          DB_USERNAME: "${DB_USERNAME}"
+          DB_PORT: "${DB_PORT}"
