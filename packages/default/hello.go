@@ -1,11 +1,8 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
-	"os"
-
 	_ "github.com/go-sql-driver/mysql"
+	"os"
 )
 
 func Main(args map[string]interface{}) map[string]interface{} {
@@ -14,12 +11,12 @@ func Main(args map[string]interface{}) map[string]interface{} {
 		name = "stranger"
 	}
 	msg := make(map[string]interface{})
-	msg["body"] = "Hello " + name + "!"
+	msg["body"] = "Hello " + name + "!" + os.Getenv("DATABASE_URL")
 
 	// Open up our database connection.
 	// I've set up a database on my local machine using phpmyadmin.
 	// The database is called testDb
-	db, err := sql.Open("mysql", os.Getenv("DB_URL"))
+	db, err := sql.Open("mysql", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		panic(err.Error())
 	}

@@ -1,0 +1,14 @@
+[
+  {
+    "apihost": "https://alpha.doserverless.io",
+    "namespace": "d7408aac-mu27asc3t2r",
+    "packageVersions": {},
+    "actionVersions": {
+      "hello": {
+        "digest": "524ad075531dc76706553e31a90ea04d537814547304dfde96469368e4e4dc1c",
+        "version": "0.0.6"
+      }
+    },
+    "webHashes": {}
+  }
+]
