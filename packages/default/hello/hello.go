@@ -3,8 +3,9 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
 	"os"
+
+	_ "github.com/lib/pq"
 )
 
 func Main(args map[string]interface{}) map[string]interface{} {
@@ -16,9 +17,9 @@ func Main(args map[string]interface{}) map[string]interface{} {
 	msg["body"] = "Hello " + name + "!"
 
 	// Open up our database connection.
-	connectionString := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=utf8&parseTime=true", os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOSTNAME"), os.Getenv("DB_PORT"), os.Getenv("DB_DATABASE"))
+	connectionString := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s", os.Getenv("DB_HOSTNAME"), os.Getenv("DB_PORT"), os.Getenv("DB_USERNAME"), os.Getenv("DB_DATABASE"), os.Getenv("DB_PASSWORD"), "verify-full")
 
-	db, err := sql.Open("mysql", connectionString)
+	db, err := sql.Open("postgres", connectionString)
 	if err != nil {
 		panic(err.Error())
 	}
