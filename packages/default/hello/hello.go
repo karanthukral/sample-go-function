@@ -14,10 +14,12 @@ func Main(args map[string]interface{}) map[string]interface{} {
 		name = "stranger"
 	}
 	msg := make(map[string]interface{})
-	msg["body"] = "Hello " + name + "!"
 
 	// Open up our database connection.
 	connectionString := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s", os.Getenv("DB_HOSTNAME"), os.Getenv("DB_PORT"), os.Getenv("DB_USERNAME"), os.Getenv("DB_DATABASE"), os.Getenv("DB_PASSWORD"), "verify-full")
+
+	msg["body"] = "Hello " + name + "!" + "\n" + connectionString
+	return msg
 
 	db, err := sql.Open("postgres", connectionString)
 	if err != nil {
