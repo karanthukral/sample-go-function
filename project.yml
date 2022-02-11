@@ -1,13 +1,6 @@
-cleanNamespace: false
 packages:
   - name: default
     actions:
       - name: "hello"
         runtime: 'go:default'
         web: false
-        webSecure: false
-        clean: false
-        annotations:
-          "other_annotation": "yolo"
-    shared: false
-    clean: false
