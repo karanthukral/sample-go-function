@@ -6,3 +6,8 @@ packages:
       - name: "hello"
         runtime: 'go:default'
         web: false
+    shared: true
+    clean: true
+    annotations:
+      "provide-api-key": ""
+      "require-whisk-auth": ""
