@@ -11,5 +11,3 @@ packages:
           "other_annotation": "yolo"
     shared: false
     clean: false
-    annotations:
-      "other_annotation": "yolo"
