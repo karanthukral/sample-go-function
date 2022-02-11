@@ -1,18 +1,14 @@
-cleanNamespace: true
-bucket: {}
+cleanNamespace: false
 packages:
   - name: default
     actions:
       - name: "hello"
         runtime: 'go:default'
         web: false
-        webSecure: true
-        clean: true
-        sequence:
-          - abc
+        webSecure: false
+        clean: false
         annotations:
-          "require-whisk-auth": ""
-          "provide-api-key": ""
+          "other_annotation": "yolo"
     shared: false
     clean: false
     annotations:
