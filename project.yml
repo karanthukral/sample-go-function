@@ -8,6 +8,8 @@ packages:
         web: false
         webSecure: true
         clean: true
+        sequence:
+          - abc
         annotations:
           "require-whisk-auth": ""
           "provide-api-key": ""
