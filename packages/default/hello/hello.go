@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
@@ -37,10 +38,16 @@ func Main(args map[string]interface{}) map[string]interface{} {
 		RootCAs: roots,
 	})
 
-	_, err := mongo.NewClient(opts)
+	client, err := mongo.NewClient(opts)
 	if err != nil {
 		fmt.Printf("client failed: %s", err.Error())
 		// panic(err.Error())
+	}
+
+	fmt.Println("trying to connect")
+	err = client.Connect(context.TODO())
+	if err != nil {
+		fmt.Printf("failed connect: %s", err.Error())
 	}
 	// } else {
 	// 	ctx := context.Background()
