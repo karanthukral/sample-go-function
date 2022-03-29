@@ -32,8 +32,8 @@ func Main(args map[string]interface{}) map[string]interface{} {
 
 	str = fmt.Sprintf("-----BEGIN CERTIFICATE-----%s-----END CERTIFICATE-----", str)
 
-	re = regexp.MustCompile(`\n-----END CERTIFICATE-----`)
-	str = re.ReplaceAllString(str, "-----END CERTIFICATE-----")
+	// re = regexp.MustCompile(`\n-----END CERTIFICATE-----`)
+	// str = re.ReplaceAllString(str, "-----END CERTIFICATE-----")
 	fmt.Println(str)
 
 	// roots := x509.NewCertPool()
