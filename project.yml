@@ -6,3 +6,4 @@ packages:
         web: false
         environment:
           DB_URL: "${DB_URL}"
+          CA_CERT: "${DB_CERT}"
