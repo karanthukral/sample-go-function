@@ -1,10 +1,13 @@
 package main
 
 import (
-	"database/sql"
+	"context"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
 	"os"
+
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 func Main(args map[string]interface{}) map[string]interface{} {
@@ -15,27 +18,16 @@ func Main(args map[string]interface{}) map[string]interface{} {
 	msg := make(map[string]interface{})
 	msg["body"] = "Hello " + name + "!"
 
-	// Open up our database connection.
-	connectionString := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=utf8&parseTime=true", os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOSTNAME"), os.Getenv("DB_PORT"), os.Getenv("DB_DATABASE"))
-
-	db, err := sql.Open("mysql", connectionString)
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
-
-	res, err := db.Query("SHOW tables")
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(os.Getenv("DB_URL")))
 	if err != nil {
 		panic(err.Error())
 	}
 
-	tableCount := 0
-
-	for res.Next() {
-		tableCount++
+	if err := client.Ping(context.TODO(), readpref.Primary()); err != nil {
+		panic(err)
 	}
 
-	msg["body"] = fmt.Sprintf("%s\nTable Count: %d", msg["body"], tableCount)
+	msg["body"] = fmt.Sprintf("%s\n Mongo Pinged", msg["body"])
 
 	return msg
 }
