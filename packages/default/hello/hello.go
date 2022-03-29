@@ -21,8 +21,8 @@ func Main(args map[string]interface{}) map[string]interface{} {
 	msg["body"] = "Hello " + name + "!"
 
 	caCert := os.Getenv("CA_CERT")
+	fmt.Println(caCert)
 	if caCert != "" {
-		fmt.Println("cert is empty")
 		msg["body"] = fmt.Sprintf("%s\n found CA_CERT", msg["body"])
 	}
 
