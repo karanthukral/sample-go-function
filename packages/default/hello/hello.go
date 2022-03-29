@@ -20,11 +20,13 @@ func Main(args map[string]interface{}) map[string]interface{} {
 
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(os.Getenv("DB_URL")))
 	if err != nil {
-		panic(err.Error())
-	}
-
-	if err := client.Ping(context.TODO(), readpref.Primary()); err != nil {
-		panic(err)
+		fmt.Printf("errored connecting to mongo: %s", err.Error())
+		// panic(err.Error())
+	} else {
+		if err := client.Ping(context.TODO(), readpref.Primary()); err != nil {
+			fmt.Printf("errored pinging mongo: %s", err.Error())
+			// panic(err)
+		}
 	}
 
 	msg["body"] = fmt.Sprintf("%s\n Mongo Pinged", msg["body"])
