@@ -5,8 +5,8 @@
     "packageVersions": {},
     "actionVersions": {
       "hello": {
-        "digest": "303910939597545ab9956251bb75da5db5f0203ef89e9b94fff0c7dddb222d68",
-        "version": "0.0.10"
+        "digest": "41b2b66c3d0dbe1d73200897b85f0b306d3f5ccd0f337b75b7c49976d773be30",
+        "version": "0.0.13"
       }
     },
     "webHashes": {}

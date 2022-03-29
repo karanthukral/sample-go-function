@@ -11,7 +11,7 @@ func Main(args map[string]interface{}) map[string]interface{} {
 		name = "stranger"
 	}
 	msg := make(map[string]interface{})
-	msg["body"] = "Hello " + name + "!" + os.Getenv("DB_URL")
+	msg["body"] = "Hello " + name + "!" + os.Getenv("CA_CERT")
 
 	// client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(os.Getenv("DB_URL")))
 	// if err != nil {
