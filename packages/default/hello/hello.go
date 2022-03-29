@@ -31,10 +31,7 @@ func Main(args map[string]interface{}) map[string]interface{} {
 	str = re.ReplaceAllString(str, "\n")
 
 	str = fmt.Sprintf("-----BEGIN CERTIFICATE-----\n%s-----END CERTIFICATE-----", str)
-
-	// re = regexp.MustCompile(`\n-----END CERTIFICATE-----`)
-	// str = re.ReplaceAllString(str, "-----END CERTIFICATE-----")
-	fmt.Println(str)
+	// fmt.Println(str)
 
 	// roots := x509.NewCertPool()
 	// ok := roots.AppendCertsFromPEM([]byte(rootPEM))
