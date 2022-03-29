@@ -9,6 +9,7 @@ import (
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 func Main(args map[string]interface{}) map[string]interface{} {
@@ -44,11 +45,20 @@ func Main(args map[string]interface{}) map[string]interface{} {
 		// panic(err.Error())
 	}
 
-	fmt.Println("trying to connect")
+	fmt.Println("connecting....")
 	err = client.Connect(context.TODO())
 	if err != nil {
 		fmt.Printf("failed connect: %s", err.Error())
 	}
+
+	fmt.Println("pinging...")
+	err = client.Ping(context.TODO(), readpref.Primary())
+	if err != nil {
+		fmt.Printf("failed ping: %s", err.Error())
+	} else {
+		fmt.Println("ping worked")
+	}
+
 	// } else {
 	// 	ctx := context.Background()
 	// 	err = client.Connect(ctx)
