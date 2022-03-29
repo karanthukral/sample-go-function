@@ -31,16 +31,6 @@ func Main(args map[string]interface{}) map[string]interface{} {
 	str = re.ReplaceAllString(str, "\n")
 
 	str = fmt.Sprintf("-----BEGIN CERTIFICATE-----\n%s-----END CERTIFICATE-----", str)
-	// fmt.Println(str)
-
-	// roots := x509.NewCertPool()
-	// ok := roots.AppendCertsFromPEM([]byte(rootPEM))
-	// if !ok {
-	// 	panic("failed to parse root certificate")
-	// }
-	// if caCert != "" {
-	// 	msg["body"] = fmt.Sprintf("%s\n found CA_CERT", msg["body"])
-	// }
 
 	opts := options.Client()
 	opts.ApplyURI(os.Getenv("DB_URL"))
@@ -57,7 +47,6 @@ func Main(args map[string]interface{}) map[string]interface{} {
 	client, err := mongo.NewClient(opts)
 	if err != nil {
 		fmt.Printf("client failed: %s", err.Error())
-		// panic(err.Error())
 	}
 
 	fmt.Println("connecting....")
@@ -73,19 +62,6 @@ func Main(args map[string]interface{}) map[string]interface{} {
 	} else {
 		fmt.Println("ping worked")
 	}
-
-	// } else {
-	// 	ctx := context.Background()
-	// 	err = client.Connect(ctx)
-	// 	if err != nil {
-	// 		fmt.Printf("errored connecting mongo: %s", err.Error())
-	// 	} else {
-	// 		if err := client.Ping(ctx, readpref.Primary()); err != nil {
-	// 			fmt.Printf("errored pinging mongo: %s", err.Error())
-	// 			// panic(err)
-	// 		}
-	// 	}
-	// }
 
 	msg["body"] = fmt.Sprintf("%s\n Mongo Pinged", msg["body"])
 
