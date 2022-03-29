@@ -9,7 +9,6 @@ import (
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 func Main(args map[string]interface{}) map[string]interface{} {
@@ -21,7 +20,7 @@ func Main(args map[string]interface{}) map[string]interface{} {
 	msg["body"] = "Hello " + name + "!"
 
 	caCert := os.Getenv("CA_CERT")
-	fmt.Println(caCert)
+	// fmt.Println(caCert)
 	if caCert != "" {
 		msg["body"] = fmt.Sprintf("%s\n found CA_CERT", msg["body"])
 	}
@@ -52,7 +51,7 @@ func Main(args map[string]interface{}) map[string]interface{} {
 	}
 
 	fmt.Println("pinging...")
-	err = client.Ping(context.TODO(), readpref.Primary())
+	err = client.Ping(context.TODO(), nil)
 	if err != nil {
 		fmt.Printf("failed ping: %s", err.Error())
 	} else {
