@@ -34,6 +34,7 @@ func Main(args map[string]interface{}) map[string]interface{} {
 
 	re = regexp.MustCompile(`\n-----END CERTIFICATE-----`)
 	str = re.ReplaceAllString(str, "-----END CERTIFICATE-----")
+	fmt.Println(str)
 
 	// roots := x509.NewCertPool()
 	// ok := roots.AppendCertsFromPEM([]byte(rootPEM))
