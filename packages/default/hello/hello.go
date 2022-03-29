@@ -20,7 +20,12 @@ func Main(args map[string]interface{}) map[string]interface{} {
 	msg["body"] = "Hello " + name + "!"
 
 	caCert := os.Getenv("CA_CERT")
-	// fmt.Println(caCert)
+	fmt.Println(caCert)
+	// roots := x509.NewCertPool()
+	// ok := roots.AppendCertsFromPEM([]byte(rootPEM))
+	// if !ok {
+	// 	panic("failed to parse root certificate")
+	// }
 	if caCert != "" {
 		msg["body"] = fmt.Sprintf("%s\n found CA_CERT", msg["body"])
 	}
@@ -29,11 +34,10 @@ func Main(args map[string]interface{}) map[string]interface{} {
 	opts.ApplyURI(os.Getenv("DB_URL"))
 
 	roots := x509.NewCertPool()
-	// ok = roots.AppendCertsFromPEM([]byte(caCert))
-	roots.AppendCertsFromPEM([]byte(caCert))
-	// if !ok {
-	// 	panic("cert didn't work")
-	// }
+	ok = roots.AppendCertsFromPEM([]byte(caCert))
+	if !ok {
+		panic("failed to parse cert")
+	}
 	opts.SetTLSConfig(&tls.Config{
 		RootCAs: roots,
 	})
