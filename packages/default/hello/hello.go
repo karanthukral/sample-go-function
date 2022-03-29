@@ -30,10 +30,11 @@ func Main(args map[string]interface{}) map[string]interface{} {
 	opts.ApplyURI(os.Getenv("DB_URL"))
 
 	roots := x509.NewCertPool()
-	ok = roots.AppendCertsFromPEM([]byte(caCert))
-	if !ok {
-		panic("cert didn't work")
-	}
+	// ok = roots.AppendCertsFromPEM([]byte(caCert))
+	roots.AppendCertsFromPEM([]byte(caCert))
+	// if !ok {
+	// 	panic("cert didn't work")
+	// }
 	opts.SetTLSConfig(&tls.Config{
 		RootCAs: roots,
 	})
