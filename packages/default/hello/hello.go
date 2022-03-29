@@ -6,6 +6,7 @@ import (
 	"crypto/x509"
 	"fmt"
 	"os"
+	"regexp"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -20,21 +21,34 @@ func Main(args map[string]interface{}) map[string]interface{} {
 	msg["body"] = "Hello " + name + "!"
 
 	caCert := os.Getenv("CA_CERT")
-	fmt.Println(caCert)
+	re := regexp.MustCompile(`-----BEGIN CERTIFICATE----- `)
+	str := re.ReplaceAllString(caCert, "")
+
+	re = regexp.MustCompile(` -----END CERTIFICATE-----`)
+	str = re.ReplaceAllString(str, "")
+
+	re = regexp.MustCompile(` `)
+	str = re.ReplaceAllString(str, "\n")
+
+	str = fmt.Sprintf("-----BEGIN CERTIFICATE-----%s-----END CERTIFICATE-----", str)
+
+	re = regexp.MustCompile(`\n-----END CERTIFICATE-----`)
+	str = re.ReplaceAllString(str, "-----END CERTIFICATE-----")
+
 	// roots := x509.NewCertPool()
 	// ok := roots.AppendCertsFromPEM([]byte(rootPEM))
 	// if !ok {
 	// 	panic("failed to parse root certificate")
 	// }
-	if caCert != "" {
-		msg["body"] = fmt.Sprintf("%s\n found CA_CERT", msg["body"])
-	}
+	// if caCert != "" {
+	// 	msg["body"] = fmt.Sprintf("%s\n found CA_CERT", msg["body"])
+	// }
 
 	opts := options.Client()
 	opts.ApplyURI(os.Getenv("DB_URL"))
 
 	roots := x509.NewCertPool()
-	ok = roots.AppendCertsFromPEM([]byte(caCert))
+	ok = roots.AppendCertsFromPEM([]byte(str))
 	if !ok {
 		panic("failed to parse cert")
 	}
