@@ -36,6 +36,11 @@ func Main(args map[string]interface{}) map[string]interface{} {
 	}
 	defer db.Close()
 
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
+
 	res, err := db.Query("SHOW tables")
 	if err != nil {
 		panic(err.Error())
