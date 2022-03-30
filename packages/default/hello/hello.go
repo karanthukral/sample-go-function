@@ -1,10 +1,10 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
 	"os"
+
+	"github.com/go-redis/redis"
 )
 
 func Main(args map[string]interface{}) map[string]interface{} {
@@ -15,27 +15,24 @@ func Main(args map[string]interface{}) map[string]interface{} {
 	msg := make(map[string]interface{})
 	msg["body"] = "Hello " + name + "!"
 
-	// Open up our database connection.
-	connectionString := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=utf8&parseTime=true", os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOSTNAME"), os.Getenv("DB_PORT"), os.Getenv("DB_DATABASE"))
-
-	db, err := sql.Open("mysql", connectionString)
+	fmt.Println("parsing redis url")
+	opts, err := redis.ParseURL(os.Getenv("REDIS_URL"))
 	if err != nil {
-		panic(err.Error())
+		panic(err)
 	}
-	defer db.Close()
 
-	res, err := db.Query("SHOW tables")
+	fmt.Println("creating redis client")
+	client := redis.NewClient(opts)
+
+	fmt.Println("pinging")
+	pong, err := client.Ping().Result()
 	if err != nil {
-		panic(err.Error())
+		panic(err)
 	}
 
-	tableCount := 0
+	fmt.Println("ponging")
 
-	for res.Next() {
-		tableCount++
-	}
-
-	msg["body"] = fmt.Sprintf("%s\nTable Count: %d", msg["body"], tableCount)
+	msg["body"] = fmt.Sprintf("%s. Ping result: %s", msg["body"], pong)
 
 	return msg
 }
